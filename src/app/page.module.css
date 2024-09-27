@@ -1,6 +1,106 @@
 .main {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
+.hero {
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    background-image: url('/JumperBack.png');
+    background-position: right -230px center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.hero h1 {
+    width: 80%;
+    font-family: "subway-paris-sc", sans-serif;
+    font-size: 4rem;
+    margin: 50px auto auto;
+    letter-spacing: 5px;
+}
+
+.hero p {
+    width: 80%;
+    font-size: 1.2rem;
+    margin: 0 auto 50px;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+.popular_items {
+    width: 100%;
+    height: 350px;
+}
+
+.popular_items h2 {
+    width: 80%;
+    margin: 25px auto;
+}
+
+.track {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100vw; /* Full viewport width */
+    overflow: hidden; /* Hide anything outside the track */
+    position: relative;
+    background-color: #fff;
+}
+
+.track_inner {
+    display: flex;
+    animation: scroll 25s linear infinite; /* 20s animation duration, adjust as needed */
+}
+
+.track_item {
+    flex-shrink: 0; /* Prevent items from shrinking */
+    width: 250px;
+    height: 250px;
+    margin: 0 10px;
+    background-color: #fff;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0); /* Start position */
+    }
+    100% {
+        transform: translateX(-50%); /* End position, halfway through the list */
+    }
+}
+
+.links {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 25px auto 50px;
+}
+
+.links a {
+    width: 100%;
+    margin: 25px auto;
+    background-color: #fff;
+    color: black;
+    padding: 15px;
+    text-align: center;
+}
 
