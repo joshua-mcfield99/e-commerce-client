@@ -30,9 +30,17 @@ export const NavBar = () => {
             </div>
             <div className={`${styles.mobile_menu} ${menuOpen ? styles.open : ''}`}>
                   <h2>Menu</h2>
-                    <Link href="/mens" onClick={toggleMenu}>Men&#39;s</Link>
-                    <Link href="/womens" onClick={toggleMenu}>Women&#39;s</Link>
-                    <Link href="/login" onClick={toggleMenu}>Login</Link>
+                  <ul>
+                    <li>
+                        <Link href="/mens" onClick={toggleMenu}>Men&#39;s</Link>
+                    </li>
+                    <li>
+                        <Link href="/womens" onClick={toggleMenu}>Women&#39;s</Link>
+                    </li>
+                    <li>
+                        <Link href="/login" onClick={toggleMenu}>Login</Link>
+                    </li>
+                  </ul>
             </div>
         </nav>
     </div>

@@ -22,7 +22,7 @@
 .hero h1 {
     width: 80%;
     font-family: "subway-paris-sc", sans-serif;
-    font-size: 4rem;
+    font-size: 4.5rem;
     margin: 50px auto auto;
     letter-spacing: 5px;
 }
@@ -58,19 +58,19 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 100vw; /* Full viewport width */
-    overflow: hidden; /* Hide anything outside the track */
+    width: 100vw; 
+    overflow: hidden; 
     position: relative;
     background-color: #fff;
 }
 
 .track_inner {
     display: flex;
-    animation: scroll 25s linear infinite; /* 20s animation duration, adjust as needed */
+    animation: scroll 25s linear infinite; 
 }
 
 .track_item {
-    flex-shrink: 0; /* Prevent items from shrinking */
+    flex-shrink: 0; 
     width: 250px;
     height: 250px;
     margin: 0 10px;
@@ -79,10 +79,10 @@
 
 @keyframes scroll {
     0% {
-        transform: translateX(0); /* Start position */
+        transform: translateX(0);
     }
     100% {
-        transform: translateX(-50%); /* End position, halfway through the list */
+        transform: translateX(-50%); 
     }
 }
 
