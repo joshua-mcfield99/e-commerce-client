@@ -10,20 +10,22 @@ export const NavBar = () => {
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
-    
+
   return (
     <div className={`${styles.nav_container}`}>
         <nav>
-            <div className={`${styles.logo_container}`}>
-                <h1>
-                    Crooked Clothing
-                </h1>
-            </div>
-            <div className={`${styles.mobile_nav}`}>
-                <div className={`${styles.menu_icon}`} onClick={toggleMenu}>
-                    <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_top : ''}`}></span>
-                    <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_mid : ''}`}></span>
-                    <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_bot : ''}`}></span>
+            <div className={`${styles.block}`}>
+                <div className={`${styles.logo_container}`}>
+                    <h1>
+                        Crooked Clothing
+                    </h1>
+                </div>
+                <div className={`${styles.mobile_nav}`}>
+                    <div className={`${styles.menu_icon}`} onClick={toggleMenu}>
+                        <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_top : ''}`}></span>
+                        <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_mid : ''}`}></span>
+                        <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_bot : ''}`}></span>
+                    </div>
                 </div>
             </div>
             <div className={`${styles.mobile_menu} ${menuOpen ? styles.open : ''}`}>
