@@ -16,9 +16,11 @@ export const NavBar = () => {
         <nav>
             <div className={`${styles.block}`}>
                 <div className={`${styles.logo_container}`}>
-                    <h1>
-                        Crooked Clothing
-                    </h1>
+                    <Link href="/">
+                        <h1>
+                            Crooked Clothing
+                        </h1>
+                    </Link>
                 </div>
                 <div className={`${styles.mobile_nav}`}>
                     <div className={`${styles.menu_icon}`} onClick={toggleMenu}>
@@ -39,6 +41,9 @@ export const NavBar = () => {
                     </li>
                     <li>
                         <Link href="/login" onClick={toggleMenu}>Login</Link>
+                    </li>
+                    <li>
+                        <Link href="/signup" onClick={toggleMenu}>SignUp</Link>
                     </li>
                   </ul>
             </div>

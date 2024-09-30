@@ -1,0 +1,54 @@
+.reset_pass_container {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.reset_pass_container h1  {
+    font-size: 2rem;
+    margin: 25px 0;
+}
+
+.reset_pass_container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 25px 0 auto;
+    row-gap: 10px;
+    background-color: #fff;
+    color: #000;    
+}
+
+.reset_pass_container label  {
+    margin: 25px auto 0 25px;
+    font-size: 1rem;
+}
+
+.reset_pass_container form input {
+    padding: 5px;
+    width: 80%;
+    margin: 0 auto 0 25px;
+}
+
+.reset_pass_container form button {
+    padding: 5px 10px;
+    width: fit-content;
+    margin: 25px 25px 20px auto;
+    font-size: 1rem;
+}
+
+.error {
+    width: 80%;
+    margin: 10px auto;
+    color: red;
+    font-size: 1rem;
+}
+
+.success {
+    width: 80%;
+    margin: 10px auto;
+    color: rgb(30, 180, 0);
+    font-size: 1rem;
+}

@@ -1,0 +1,85 @@
+.login_container {
+    width: 80%;
+    height: 60vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.login_container h1  {
+    font-size: 2rem;
+    margin: 25px 0;
+}
+
+.login_container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 25px 0 0;
+    row-gap: 10px;
+    background-color: #fff;
+    color: #000;    
+}
+
+.login_container label  {
+    margin: 25px auto 0 25px;
+    font-size: 1rem;
+}
+
+.login_container form input {
+    padding: 5px;
+    width: 80%;
+    margin: 0 auto 0 25px;
+}
+
+.login_container form button {
+    padding: 5px 10px;
+    width: 30%;
+    margin: 25px 25px 20px auto;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.error {
+    width: 80%;
+    margin: 10px auto;
+    color: red;
+    font-size: 1rem;
+}
+
+.signup {
+    margin: 25px 0;
+}
+
+.signup a {
+    margin: 25px 0;
+    color: rgb(136, 158, 255);
+}
+
+.google_oauth {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: fit-content;
+    background-color: #fff;
+}
+
+.google_oauth button {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 5px 10px;
+    margin: 0 25px 25px;
+    cursor: pointer;
+}
+
+.google_oauth p {
+    margin: 0 auto 0 25px;
+    font-size: 1rem;
+}
+
+.google_oauth img {
+    margin: 0 25px 0 25px;
+}

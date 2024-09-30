@@ -33,6 +33,8 @@
     align-items: center;
     height: 100%;
     margin: 0 auto 0 25px;
+    cursor: pointer;
+    z-index: 101;
 }
 
 .logo_container h1 {
