@@ -1,21 +1,24 @@
 'use client';
+
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
 
-export default function Profile() {
-    const searchParams = useSearchParams();
-    const passwordReset = searchParams.get('passwordReset');
-
+const ProfilePage = () => {
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const router = useRouter();
+    
     useEffect(() => {
-        if (passwordReset === 'true') {
-            alert('Check your email for a password reset link!');
+        if (!isAuthenticated) {
+            router.push('/login');  // Redirect to login if not authenticated
         }
-    }, [passwordReset]);
+    }, [isAuthenticated, router]);
+    
+    return isAuthenticated ? (
+        <main>
+            <h1>Welcome to your profile</h1>
+        </main>
+    ) : null;
+};
 
-    return (
-        <div>
-            <h1>Profile Page</h1>
-            {/* Additional profile content */}
-        </div>
-    );
-}
+export default ProfilePage;

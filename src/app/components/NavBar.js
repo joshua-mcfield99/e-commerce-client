@@ -3,6 +3,7 @@ import React from 'react'
 import { useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/navbar.module.css'
+import LogoutButton from './LogoutButton';
 
 export const NavBar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -44,6 +45,9 @@ export const NavBar = () => {
                     </li>
                     <li>
                         <Link href="/signup" onClick={toggleMenu}>SignUp</Link>
+                    </li>
+                    <li onClick={toggleMenu}>
+                        <LogoutButton/>
                     </li>
                   </ul>
             </div>

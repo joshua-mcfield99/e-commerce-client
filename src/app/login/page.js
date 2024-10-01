@@ -1,7 +1,10 @@
 'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../store/authSlice'; // Import the login action
 import styles from '../styles/login.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -12,6 +15,7 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const router = useRouter();
+    const dispatch = useDispatch(); // Initialize Redux dispatch
 
     // Handle Google OAuth login
     const handleGoogleLogin = () => {
@@ -25,24 +29,21 @@ export default function Login() {
         setError(null);
 
         try {
-            // Make POST request to backend for login
             const response = await axios.post('http://localhost:3001/api/auth/login', {
                 email,
                 password,
-            }, { withCredentials: true });
+            }, { withCredentials: true });  // Ensure session cookies are sent
 
-            // Store token and redirect to profile
-            localStorage.setItem('token', response.data.token);
-            router.push('/profile');
-        } catch (err) {
-            if (err.response) {
-                setError(err.response.data.message || 'Login failed');
-                if (err.response.status === 404) {
-                    router.push('/signup');
-                }
-            } else {
-                setError('An error occurred. Please try again.');
+            // On success, dispatch the login action and store the user data in Redux
+            if (response.status === 200) {
+                const userData = response.data.user;
+                dispatch(login(userData)); // Dispatch login action to store user data
+
+                // Frontend handles the redirect
+                router.push('/profile');
             }
+        } catch (err) {
+            setError('An error occurred. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -53,7 +54,7 @@ export default function Login() {
             <main>
                 <div className={styles.login_container}>
                     <h1>Login</h1>
-                    <form onSubmit={handleLogin}>
+                    <form onSubmit={handleLogin} className='form'>
                         <label htmlFor="email">Email:</label>
                         <input
                             type="email"
@@ -68,20 +69,21 @@ export default function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                        <p className={`${styles.forgot_pass}`}>Forgot password? <Link href='/forgot-password'>(Click me)</Link></p>
                         {error && <p className={styles.error}>{error}</p>}
                         <button type="submit" disabled={loading}>
                             {loading ? 'Logging in...' : 'Login'}
                         </button>
+                        <div className={styles.google_oauth}>
+                            <button onClick={handleGoogleLogin}>
+                                <p>Login with Google</p>
+                                <Image src='/Search_GSA.original.png' alt='google login button' width={30} height={30}/>
+                            </button>
+                        </div>
+                        <p className={styles.signup}>
+                            Don&#39;t have an account? <Link href='/signup'>(SignUp)</Link>
+                        </p>
                     </form>
-                    <div className={styles.google_oauth}>
-                        <button onClick={handleGoogleLogin}>
-                            <p>Login with Google</p>
-                            <Image src='/Search_GSA.original.png' alt='google login button' width={30} height={30}/>
-                        </button>
-                    </div>
-                    <p className={styles.signup}>
-                        Don't have an account? <Link href='/signup'>(SignUp)</Link>
-                    </p>
                 </div>
             </main>
         </div>

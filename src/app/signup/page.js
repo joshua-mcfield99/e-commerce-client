@@ -69,7 +69,7 @@ export default function Signup() {
         <main>
             <div className={styles.signup_container}>
                 <h1>SignUp</h1>
-                <form onSubmit={handleSignup}>
+                <form onSubmit={handleSignup} className='form'>
                     <label htmlFor="first_name">First Name:</label>
                     <input
                         type="text"

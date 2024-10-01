@@ -1,0 +1,23 @@
+.product {
+    margin: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    width: 300px;
+}
+
+.product_image {
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.product_name {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.product_description {
+    font-size: 1rem;
+    color: #555;
+}

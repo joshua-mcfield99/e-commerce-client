@@ -30,3 +30,46 @@ main {
     position: relative;
     top: 80px;
 }
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 25px 0 0;
+    row-gap: 10px;
+    background-color: #fff;
+    color: #000; 
+}
+
+.form label  {
+    margin: 25px auto 0 25px;
+    font-size: 1rem;
+}
+
+.form input {
+    padding: 5px;
+    width: 85%;
+    margin: 0 auto;
+}
+
+.form button {
+    padding: 5px 10px;
+    width: fit-content;
+    margin: 25px 25px 20px auto;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.form p {
+    font-size: 1rem;
+    width: fit-content;
+    margin: 10px 25px 0 auto;
+    max-width: 85%;
+}
+
+.logout_button {
+    width: fit-content;
+    padding: 10px 15px;
+    font-size: 1rem;
+    cursor: pointer;
+}
