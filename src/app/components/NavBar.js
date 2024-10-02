@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/navbar.module.css'
 import LogoutButton from './LogoutButton';
+import Image from 'next/image';
 
 export const NavBar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -16,6 +17,11 @@ export const NavBar = () => {
     <div className={`${styles.nav_container}`}>
         <nav>
             <div className={`${styles.block}`}>
+                <div className={`${styles.menu_icon}`} onClick={toggleMenu}>
+                    <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_top : ''}`}></span>
+                    <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_mid : ''}`}></span>
+                    <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_bot : ''}`}></span>
+                </div>
                 <div className={`${styles.logo_container}`}>
                     <Link href="/">
                         <h1>
@@ -23,17 +29,39 @@ export const NavBar = () => {
                         </h1>
                     </Link>
                 </div>
-                <div className={`${styles.mobile_nav}`}>
-                    <div className={`${styles.menu_icon}`} onClick={toggleMenu}>
-                        <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_top : ''}`}></span>
-                        <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_mid : ''}`}></span>
-                        <span className={`${styles.menu_bar} ${menuOpen ? styles.bar_bot : ''}`}></span>
+                <div className={`${styles.desktop_menu}`}>
+                    <ul>
+                        <div className={styles.gen_links_container}>
+                            <li className={styles.gen_link}>
+                                <Link href="/mens">Men&#39;s</Link>
+                            </li>
+                            <li className={styles.gen_link}>
+                                <Link href="/womens">Women&#39;s</Link>
+                            </li>
+                        </div>
+                        <li>
+                            <Link href="/login">Login</Link>
+                        </li>
+                        <li>
+                            <Link href="/signup">SignUp</Link>
+                        </li>
+                        <li>
+                            <LogoutButton/>
+                        </li>
+                    </ul>
+                </div>
+                <div className={`${styles.quick_links}`}>
+                    <div className={`${styles.quick_link}`}>
+                        <Link href='/profile'><Image src='/Profile.png' alt='Profile link' width={50} height={50} layout='intrinsic' className={styles.quick_icon} /></Link>
+                    </div>
+                    <div className={`${styles.quick_link}`}>
+                        <Link href='/cart'><Image src='/Cart.png' alt='Cart' width={50} height={50} layout='intrinsic' className={styles.quick_icon} /></Link>
                     </div>
                 </div>
             </div>
             <div className={`${styles.mobile_menu} ${menuOpen ? styles.open : ''}`}>
-                  <h2>Menu</h2>
-                  <ul>
+                <h2>Menu</h2>
+                <ul>
                     <li>
                         <Link href="/mens" onClick={toggleMenu}>Men&#39;s</Link>
                     </li>
@@ -49,7 +77,7 @@ export const NavBar = () => {
                     <li onClick={toggleMenu}>
                         <LogoutButton/>
                     </li>
-                  </ul>
+                </ul>
             </div>
         </nav>
     </div>

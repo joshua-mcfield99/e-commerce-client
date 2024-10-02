@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import ProductList from '../components/ProductList';
 import axios from 'axios';
+import styles from '../styles/productPage.module.css';
 
 export default function Mens() {
     const [products, setProducts] = useState([]);

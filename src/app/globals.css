@@ -29,6 +29,13 @@ a {
 main {
     position: relative;
     top: 80px;
+    max-width: 1440px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+section {
+    max-width: 100%;
 }
 
 .form {

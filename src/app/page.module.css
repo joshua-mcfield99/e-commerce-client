@@ -104,3 +104,26 @@
     text-align: center;
 }
 
+
+@media only screen and (min-width: 1011px) {
+    .hero {
+        background-position: 0;
+    }
+
+    .hero h1 {
+        max-width: 500px;
+        margin: 50px auto auto 50px;
+    }
+
+    .hero p {
+        margin: 0 auto 50px 50px;
+    }
+
+    .links {
+        flex-direction: row;
+    }
+
+    .links a {
+        width: 45%;
+    }
+}
