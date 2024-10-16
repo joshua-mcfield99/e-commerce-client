@@ -1,6 +1,7 @@
 import "./globals.css";
 import Providers from './provider';
 import { NavBar } from "./components/NavBar";
+import { CartProvider } from "./components/CartContext";
 
 
 export const metadata = {
@@ -17,8 +18,10 @@ export default function RootLayout({ children }) {
             </head>
             <body className={``}>
                 <Providers>
-                    <NavBar/>
-                    {children}
+                    <CartProvider>
+                        <NavBar/>
+                        {children}
+                    </CartProvider>
                 </Providers>
             </body>
         </html>

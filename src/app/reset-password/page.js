@@ -45,10 +45,16 @@ export default function ResetPassword() {
 
             if (response.status === 200) {
                 setSuccess('Password reset successfully!');
-                // Redirect to login after successful reset
-                setTimeout(() => {
-                    router.push('/login');
-                }, 3000); // Redirect after 3 seconds
+                
+                // If redirect is provided in the response, navigate to it (e.g., profile page)
+                if (response.data.redirect) {
+                    router.push(response.data.redirect);
+                } else {
+                    // Redirect to login after successful reset
+                    setTimeout(() => {
+                        router.push('/login');
+                    }, 3000); // Redirect after 3 seconds
+                }
             }
         } catch (err) {
             if (err.response && err.response.data) {

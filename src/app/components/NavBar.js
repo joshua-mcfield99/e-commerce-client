@@ -2,12 +2,14 @@
 import React from 'react'
 import { useState } from 'react';
 import Link from 'next/link';
+import { useCart } from './CartContext'
 import styles from '../styles/navbar.module.css'
 import LogoutButton from './LogoutButton';
 import Image from 'next/image';
 
 export const NavBar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const { cartItems } = useCart();
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -56,6 +58,11 @@ export const NavBar = () => {
                     </div>
                     <div className={`${styles.quick_link}`}>
                         <Link href='/cart'><Image src='/Cart.png' alt='Cart' width={50} height={50} layout='intrinsic' className={styles.quick_icon} /></Link>
+                        {cartItems.length > 0 && (
+                          <div className={`${styles.cart_count}`}>
+                            {cartItems.length}
+                          </div>
+                        )}
                     </div>
                 </div>
             </div>

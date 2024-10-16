@@ -56,6 +56,7 @@
 }
 
 .quick_link {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -211,6 +212,21 @@
 
 .gen_link a:hover {
     background-color: #acacac;
+}
+
+.cart_count {
+    position: absolute;
+    top: -10px;
+    right: -5px;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
 }
 
 /* Hide mobile toggle for larger screens */
