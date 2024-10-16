@@ -107,7 +107,7 @@
 }
 
 .bar_top {
-    transform: rotate(45deg) translate(5px, 10px);
+    transform: rotate(45deg) translate(4px, 4px);
 }
 
 .bar_mid {
@@ -115,7 +115,7 @@
 }
 
 .bar_bot {
-    transform: rotate(-45deg) translate(5px, -10px);
+    transform: rotate(-45deg) translate(8px, -8px);
 }
 
 .mobile_menu {
