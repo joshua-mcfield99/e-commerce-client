@@ -1,0 +1,25 @@
+.confirmation_page {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.order_summary, .shipping_details {
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.order_summary ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.order_summary li, .shipping_details p {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}

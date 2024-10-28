@@ -1,0 +1,59 @@
+.checkout_page {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: left;
+}
+
+.checkout_page section {
+    width: 100%;
+}
+
+.checkout_page h1 {
+    margin: 25px auto 25px 0;
+    font-size: 1.8rem;
+}
+
+.checkout_page h2 {
+    margin-top: 25px;
+    font-size: 1.4rem;
+}
+
+.summary ul{
+    margin-top: 25px;
+    font-size: 1rem;
+    list-style: none;
+}
+
+.summary ul li {
+    margin: 10px;
+}
+
+.address_form {
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    flex-direction: column;
+}
+
+.address_form form {
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    flex-direction: column;
+}
+
+.address_form label {
+    width: 100%;
+    font-size: 1rem;
+    margin: 15px auto 5px 0;
+}
+
+.address_form input {
+    font-size: 1rem;
+    padding: 5px;
+    border-radius: 5px;
+    
+}

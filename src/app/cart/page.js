@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import styles from '../styles/cart.module.css';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Cart = () => {
     const { cartItems, fetchCart, setCartItems } = useCart(); // Use fetchCart from CartContext
@@ -122,6 +123,7 @@ const Cart = () => {
                     <div className={styles.cart_summary}>
                         <h3>Total Items: {totalItems}</h3>
                         <h3>Total Price: ${formattedTotalPrice}</h3> {/* Show total price */}
+                        <Link href='/checkout'>Checkout</Link>
                     </div>
                 </div>
             )}
