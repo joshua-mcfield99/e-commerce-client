@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import styles from '../styles/checkout.module.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-const CheckoutForm = ({ cartItems, totalPrice, cartId }) => {
+const CheckoutForm = ({ cartItems, totalPrice, cartId, clientSecret }) => {
     const stripe = useStripe();
     const elements = useElements();
     const router = useRouter();
@@ -25,7 +25,7 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId }) => {
             const response = await axios.post(
                 'http://localhost:3001/api/addresses',
                 address,
-                { withCredentials: true } // This ensures the session cookie is sent with the request
+                { withCredentials: true }
             );
             setAddressId(response.data.address_id);
             return response.data.address_id;
@@ -38,23 +38,25 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!stripe || !elements) return; // Ensure Stripe.js has loaded
+        if (!stripe || !elements || !clientSecret) {
+            console.error("Stripe.js or clientSecret has not loaded.");
+            return;
+        }
 
         setIsSubmitting(true);
 
-        // Step 1: Save the address and get the address ID
         const savedAddressId = await saveAddress();
         if (!savedAddressId) {
             setIsSubmitting(false);
             return;
         }
 
-        // Step 2: Confirm payment with Stripe
         const { error, paymentIntent } = await stripe.confirmPayment({
             elements,
             confirmParams: {
                 return_url: 'http://localhost:3000/order-confirmation',
             },
+            redirect: 'if_required',
         });
 
         if (error) {
@@ -63,13 +65,16 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId }) => {
             return;
         }
 
-        // Step 3: If payment succeeds, create the order with the backend
+        // After successful order creation
         try {
-            await axios.post(`http://localhost:3001/api/cart/${cartId}/checkout`, {
-                payment_details: paymentIntent.id, // Using the payment intent ID as payment details
-                address_id: savedAddressId,
-            });
-            router.push('/order-confirmation'); // Redirect to order confirmation page
+            const response = await axios.post(
+                `http://localhost:3001/api/checkout/cart/${cartId}`,
+                { payment_details: paymentIntent.id, address_id: savedAddressId },
+                { withCredentials: true }
+            );
+        
+            const orderId = response.data.order_id; // Get the order ID from the response
+            router.push(`/order-confirmation?orderId=${orderId}`); // Redirect with orderId as a query param
         } catch (orderError) {
             console.error('Error creating order:', orderError);
             setErrorMessage('Failed to create order. Please contact support.');
@@ -85,8 +90,8 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId }) => {
                 <ul>
                     {cartItems.map((item) => (
                         <li key={item.cart_item_id}>
-                            <span>{item.name} </span>
-                            <br></br>
+                            <span>{item.name}</span>
+                            <br />
                             <span>{item.quantity}x ${parseFloat(item.price).toFixed(2)}</span>
                         </li>
                     ))}
@@ -97,17 +102,17 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId }) => {
             <section className={styles.address_form}>
                 <h2>Shipping Address</h2>
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor='name'>Full Name:</label>
+                    <label htmlFor="name">Full Name:</label>
                     <input type="text" name="name" placeholder="Full Name" value={address.name} onChange={handleAddressChange} required />
-                    <label htmlFor='street'>Street and Number:</label>
+                    <label htmlFor="street">Street and Number:</label>
                     <input type="text" name="street" placeholder="Street Address" value={address.street} onChange={handleAddressChange} required />
-                    <label htmlFor='city'>City:</label>
+                    <label htmlFor="city">City:</label>
                     <input type="text" name="city" placeholder="City" value={address.city} onChange={handleAddressChange} required />
-                    <label htmlFor='state'>State/County:</label>
+                    <label htmlFor="state">State/County:</label>
                     <input type="text" name="state" placeholder="State/County" value={address.state} onChange={handleAddressChange} required />
-                    <label htmlFor='postal_code'>Postal Code:</label>
+                    <label htmlFor="postal_code">Postal Code:</label>
                     <input type="text" name="postal_code" placeholder="Postal Code" value={address.postal_code} onChange={handleAddressChange} required />
-                    <label htmlFor='country'>Country:</label>
+                    <label htmlFor="country">Country:</label>
                     <input type="text" name="country" placeholder="Country" value={address.country} onChange={handleAddressChange} required />
                 </form>
             </section>
@@ -115,7 +120,7 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId }) => {
             <section className={styles.payment_form}>
                 <h2>Payment Details</h2>
                 <form onSubmit={handleSubmit}>
-                    <PaymentElement />
+                    {clientSecret && <PaymentElement />}
                     <button type="submit" disabled={!stripe || isSubmitting}>
                         {isSubmitting ? 'Processing...' : 'Pay Now'}
                     </button>

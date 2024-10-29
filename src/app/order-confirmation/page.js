@@ -1,22 +1,38 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import axios from 'axios';
 import styles from '../styles/confirmation.module.css';
 
 const OrderConfirmation = () => {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [orderDetails, setOrderDetails] = useState(null);
 
     useEffect(() => {
-        // Mock fetching order data from the server or from local storage after successful payment
-        const storedOrder = JSON.parse(localStorage.getItem('orderDetails'));
-        if (storedOrder) {
-            setOrderDetails(storedOrder);
-        } else {
-            // Redirect to homepage if no order data is available
-            router.push('/');
-        }
-    }, [router]);
+        const fetchOrderDetails = async () => {
+            const orderId = searchParams.get('orderId'); // Get orderId from query params
+            if (!orderId) {
+                console.log('No orderId');
+                // Uncomment the following line if you want to redirect to the homepage when orderId is missing
+                // router.push('/');
+                return;
+            }
+
+            try {
+                const response = await axios.get(`http://localhost:3001/api/orders/${orderId}`, {
+                    withCredentials: true,
+                });
+                setOrderDetails(response.data);
+            } catch (error) {
+                console.error('Error fetching order details:', error);
+                // Uncomment the following line if you want to redirect to the homepage on error
+                // router.push('/');
+            }
+        };
+
+        fetchOrderDetails();
+    }, [searchParams]);
 
     if (!orderDetails) return <p>Loading...</p>;
 
@@ -29,14 +45,14 @@ const OrderConfirmation = () => {
             <section className={styles.order_summary}>
                 <h2>Order Summary</h2>
                 <ul>
-                    {orderDetails.cartItems.map((item) => (
-                        <li key={item.cart_item_id}>
-                            <span>{item.name}</span>
+                    {orderDetails.items.map((item) => (
+                        <li key={item.order_item_id}>
+                            <span>{item.product_name}</span>
                             <span>{item.quantity} x ${parseFloat(item.price).toFixed(2)}</span>
                         </li>
                     ))}
                 </ul>
-                <h3>Total: ${parseFloat(orderDetails.totalPrice).toFixed(2)}</h3>
+                <h3>Total: ${parseFloat(orderDetails.total_price).toFixed(2)}</h3>
             </section>
 
             {/* Shipping Address */}
@@ -45,13 +61,13 @@ const OrderConfirmation = () => {
                 <p><strong>Name:</strong> {orderDetails.address.name}</p>
                 <p><strong>Street:</strong> {orderDetails.address.street}</p>
                 <p><strong>City:</strong> {orderDetails.address.city}</p>
-                <p><strong>ZIP Code:</strong> {orderDetails.address.zip}</p>
+                <p><strong>Postal Code:</strong> {orderDetails.address.postal_code}</p>
                 <p><strong>Country:</strong> {orderDetails.address.country}</p>
             </section>
 
-            <p>We hope you enjoy your purchase! A confirmation email has been sent to your registered email address.</p>
+            {/*<p>We hope you enjoy your purchase! A confirmation email has been sent to your registered email address.</p>*/}
         </main>
     );
 };
 
-export default OrderConfirmation; 
+export default OrderConfirmation;
