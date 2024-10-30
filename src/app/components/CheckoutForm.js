@@ -22,6 +22,7 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId, clientSecret }) => {
 
     const saveAddress = async () => {
         try {
+            console.log("Attempting to save address:", address); // Log address details to confirm data
             const response = await axios.post(
                 'http://localhost:3001/api/addresses',
                 address,
