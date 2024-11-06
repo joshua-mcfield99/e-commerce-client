@@ -38,7 +38,7 @@ export default function Womens() {
     };
 
     return (
-        <main>
+        <main className={`${styles.product_page}`}>
             <h1>Women&#39;s Clothing</h1>
 
             {/* Category Filters */}

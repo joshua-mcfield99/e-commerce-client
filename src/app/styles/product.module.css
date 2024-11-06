@@ -8,8 +8,7 @@
 }
 
 .product_image {
-    object-fit: cover;
-    border-radius: 8px;
+    object-fit: contain;
 }
 
 .product_name {
