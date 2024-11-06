@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // default local storage
 import { combineReducers } from 'redux';
-import authReducer from './authSlice'; // Example slice
+import authReducer from './authSlice';
 
 // Redux persist configuration
 const persistConfig = {
@@ -17,10 +17,14 @@ const rootReducer = combineReducers({
 // Wrap the root reducer with persistReducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// Create store with persisted reducer
+// Create store with persisted reducer and custom middleware to ignore non-serializable values
 export const store = configureStore({
   reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== 'production',
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // Disable serializable check for redux-persist
+    }),
 });
 
 // Create persistor for redux-persist
