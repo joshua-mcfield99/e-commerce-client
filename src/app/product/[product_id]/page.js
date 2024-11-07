@@ -59,9 +59,9 @@ export default function ProductDetails() {
 
     console.log(product);
     return (
-        <main>
+        <main className={`${styles.details_page}`}>
             {product ? (
-                <div>
+                <div className={`${styles.item_container}`}>
                     <Image
                         src={product.image_url}
                         alt={product.name}
@@ -69,7 +69,7 @@ export default function ProductDetails() {
                         height={600}
                         className={`${styles.product_image}`}
                     />
-                    <div>
+                    <div className={`${styles.details}`}>
                         <h1>{product.name}</h1>
                         <p>{product.description}</p>
                         <p><strong>Price:</strong> £{product.price}</p>
