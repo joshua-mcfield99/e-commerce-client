@@ -42,7 +42,7 @@ export default function Womens() {
             <h1>Women&#39;s Clothing</h1>
 
             {/* Category Filters */}
-            <div className="filter-bar">
+            <div className={`${styles.filter_bar}`}>
                 <button onClick={() => handleCategoryChange('all')}>All</button>
                 <button onClick={() => handleCategoryChange('hoodie')}>Hoodies</button>
                 <button onClick={() => handleCategoryChange('t-shirt')}>T-shirts</button>
@@ -50,7 +50,7 @@ export default function Womens() {
             </div>
 
             {/* Display products */}
-            <div className="product-grid">
+            <div className={`${styles.product_grid}`}>
                 <ProductList products={filteredProducts} />
             </div>
         </main>

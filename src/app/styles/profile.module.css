@@ -14,10 +14,11 @@
 
 .info_container {
     width: 100%;
+    margin: 0 0 50px;
 }
 
 .info_container h2 {
-    margin: 25px auto 25px;
+    margin: 0 auto 25px;
     font-size: 1.6rem;
 }
 

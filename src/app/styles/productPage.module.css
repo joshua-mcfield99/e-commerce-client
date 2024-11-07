@@ -16,6 +16,8 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    max-width: 360px;
+    margin: 25px auto;
 }
 
 .filter_bar button{
@@ -32,4 +34,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+@media only screen and (min-width: 590px) {
+    .product_page h1 {
+        text-align: center;
+        margin: 50px auto 25px;
+    }
+
 }

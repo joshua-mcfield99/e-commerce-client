@@ -2,6 +2,7 @@ import "./globals.css";
 import Providers from './provider';
 import { NavBar } from "./components/NavBar";
 import { CartProvider } from "./components/CartContext";
+import { Footer } from "./components/Footer";
 
 
 export const metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
                     <CartProvider>
                         <NavBar/>
                         {children}
+                        <Footer/>
                     </CartProvider>
                 </Providers>
             </body>

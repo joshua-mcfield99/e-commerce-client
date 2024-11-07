@@ -1,0 +1,47 @@
+.footer_banner h1 {
+    width: 80%;
+    font-family: "subway-paris-sc", sans-serif;
+    font-size: 3rem;
+    margin: 60px auto;
+    letter-spacing: 5px;
+    text-align: center;
+}
+
+.quick_links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.quick_links h2 {
+    font-size: 1.8rem;
+    margin: 0 auto 25px;
+}
+
+.quick_links ul {
+    list-style: none;
+    text-align: center;
+}
+
+.quick_links li {
+    font-size: 1.2rem;
+    margin: 0 auto 15px;
+}
+
+.copyright {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 25px 0;
+}
+
+.copyright p {
+    margin: 0 5px;
+    font-family: "subway-paris-sc", sans-serif;
+    font-size: 1.9rem;
+}
+
+.copyright img {
+    margin: 0;
+}
