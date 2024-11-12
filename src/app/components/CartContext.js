@@ -1,5 +1,5 @@
 'use client'
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useMemo } from 'react';
 import axios from 'axios';
 
 const CartContext = createContext();
@@ -42,8 +42,13 @@ export const CartProvider = ({ children }) => {
         }
     };
 
+    // Function to calculate the total quantity of items in the cart
+    const totalQuantity = useMemo(() => {
+        return cartItems.reduce((total, item) => total + item.quantity, 0);
+    }, [cartItems]);
+
     return (
-        <CartContext.Provider value={{ cartItems, setCartItems, addToCart, removeFromCart, fetchCart }}>
+        <CartContext.Provider value={{ cartItems, setCartItems, addToCart, removeFromCart, fetchCart, totalQuantity }}>
             {children}
         </CartContext.Provider>
     );

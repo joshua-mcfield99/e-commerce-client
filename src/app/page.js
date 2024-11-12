@@ -18,7 +18,6 @@ export default function Home() {
                     <h1>This is Crooked Clothing.</h1>
                     <p>Find your style with our latest collections.</p>
                     </section>
-
                     <section className={styles.popular_items}>
                         <h2>Popular Items</h2>
                         <div className={styles.track}>

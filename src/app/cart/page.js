@@ -82,11 +82,11 @@ const Cart = () => {
 
     return (
         <main className={`${styles.cart_page}`}>
-            <h1>Your Cart</h1>
             {cartItems.length === 0 ? (
                 <p>Your cart is empty.</p>
             ) : (
                 <div className={`${styles.cart}`}>
+                    <h1>Your Cart</h1>
                     <ul>
                         {cartItems.map((item) => (
                             <li key={item.cart_item_id} className={`${styles.cart_item}`}>
@@ -111,7 +111,7 @@ const Cart = () => {
                                 />
                                 <h3>Price: ${item.total_price}</h3> {/* Show updated total price per item */}
                                 <button 
-                                    className={styles.remove_btn} 
+                                    className={`${'button'}`} 
                                     onClick={() => removeCartItem(item.cart_item_id)}
                                     disabled={loading}
                                 >
@@ -123,7 +123,7 @@ const Cart = () => {
                     <div className={styles.cart_summary}>
                         <h3>Total Items: {totalItems}</h3>
                         <h3>Total Price: ${formattedTotalPrice}</h3> {/* Show total price */}
-                        <Link href='/checkout'>Checkout</Link>
+                        <Link href='/checkout' className={`${'button'}`}>Checkout</Link>
                     </div>
                 </div>
             )}

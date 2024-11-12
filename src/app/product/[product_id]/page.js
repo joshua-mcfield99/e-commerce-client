@@ -5,44 +5,67 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import styles from "../../styles/productDetails.module.css";
+import { useCart } from "../../components/CartContext"; 
 
 export default function ProductDetails() {
-    const { product_id } = useParams(); // This is the product_id from the URL
+    const { product_id } = useParams();
     const [product, setProduct] = useState(null);
+    const [quantity, setQuantity] = useState(1); // Quantity input state
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
     const router = useRouter();
+    const { cartItems, fetchCart } = useCart();
+
+    const handleQuantityChange = (event) => {
+        const value = Math.max(1, Number(event.target.value));
+        setQuantity(value);
+    };
 
     const addToCart = async (product_id, quantity) => {
         if (!isAuthenticated) {
-            router.push('/login'); // Redirect to login if not authenticated
+            router.push('/login');
             return;
         }
 
-        try {
-            // Make sure you're passing the correct product_id and quantity
-            const response = await axios.post(
-                'http://localhost:3001/api/cart/items',
-                { product_id, quantity }, // product_id is taken from product fetched
-                {
-                    withCredentials: true, // Ensure session info is included
-                }
-            );
-            alert('Product added to cart!');
-            return response.data;
-        } catch (error) {
-            console.error('Error adding item to cart:', error);
-            throw error;
+        // Check if item is already in the cart
+        const existingCartItem = cartItems.find(item => item.product_id === product_id);
+
+        if (existingCartItem) {
+            // If item exists, update the quantity
+            const newQuantity = existingCartItem.quantity + quantity;
+            try {
+                await axios.put(
+                    `http://localhost:3001/api/cart/items/${existingCartItem.cart_item_id}`,
+                    { quantity: newQuantity },
+                    { withCredentials: true }
+                );
+                alert('Cart item quantity updated!');
+                await fetchCart(); // Refresh the cart to update the count in the NavBar
+            } catch (error) {
+                console.error('Error updating item quantity:', error);
+            }
+        } else {
+            // If item does not exist, add a new item
+            try {
+                await axios.post(
+                    'http://localhost:3001/api/cart/items',
+                    { product_id, quantity },
+                    { withCredentials: true }
+                );
+                alert('Product added to cart!');
+                await fetchCart(); // Refresh the cart to update the count in the NavBar
+            } catch (error) {
+                console.error('Error adding item to cart:', error);
+            }
         }
     };
 
     useEffect(() => {
-        // Fetch product details from the backend using the product id from the URL
         async function fetchProductDetails() {
             try {
                 const response = await axios.get(`http://localhost:3001/api/products/${product_id}`);
-                setProduct(response.data); // Store product details in state
+                setProduct(response.data);
             } catch (error) {
                 setError('Error fetching product details');
             } finally {
@@ -57,11 +80,11 @@ export default function ProductDetails() {
     if (loading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;
 
-    console.log(product);
     return (
         <main className={`${styles.details_page}`}>
             {product ? (
                 <div className={`${styles.item_container}`}>
+                    <h1>{product.name}</h1>
                     <Image
                         src={product.image_url}
                         alt={product.name}
@@ -70,14 +93,26 @@ export default function ProductDetails() {
                         className={`${styles.product_image}`}
                     />
                     <div className={`${styles.details}`}>
-                        <h1>{product.name}</h1>
                         <p>{product.description}</p>
                         <p><strong>Price:</strong> £{product.price}</p>
                         <p><strong>Stock:</strong> {product.stock}</p>
                         <p><strong>Category:</strong> {product.category_name}</p>
                         <p><strong>Gender:</strong> {product.gender}</p>
-                        {/* Add to Cart uses product.product_id */}
-                        <button onClick={() => addToCart(product.product_id, 1)}>Add to Cart</button>
+
+                        {/* Quantity input */}
+                        <label>
+                            <strong>Quantity:</strong>
+                            <input
+                                type="number"
+                                min="1"
+                                max="10"
+                                value={quantity}
+                                onChange={handleQuantityChange}
+
+                            />
+                        </label>
+                        {/* Add to Cart button */}
+                        <button onClick={() => addToCart(product.product_id, quantity)} className={`${'button'}`}>Add to Cart</button>
                     </div>
                 </div>
             ) : (

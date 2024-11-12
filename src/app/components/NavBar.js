@@ -9,7 +9,7 @@ import Image from 'next/image';
 
 export const NavBar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
-    const { cartItems } = useCart();
+    const { totalQuantity } = useCart();
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -58,9 +58,9 @@ export const NavBar = () => {
                     </div>
                     <div className={`${styles.quick_link}`}>
                         <Link href='/cart'><Image src='/Cart.png' alt='Cart' width={50} height={50} layout='intrinsic' className={styles.quick_icon} /></Link>
-                        {cartItems.length > 0 && (
+                        {totalQuantity > 0 && (
                           <div className={`${styles.cart_count}`}>
-                            {cartItems.length}
+                            {totalQuantity}
                           </div>
                         )}
                     </div>

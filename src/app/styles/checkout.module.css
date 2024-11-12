@@ -7,29 +7,28 @@
     text-align: left;
 }
 
-.checkout_page section {
-    width: 100%;
-    margin: 0 0 50px;
-}
-
 .checkout_page h1 {
     margin: 25px auto 25px 0;
     font-size: 1.8rem;
 }
 
 .checkout_page h2 {
-    margin-top: 25px;
+    margin: 25px 0;
     font-size: 1.4rem;
 }
 
+.summary {
+    width: 100%;
+}
+
 .summary ul{
-    margin-top: 25px;
+    margin: 25px 0;
     font-size: 1rem;
     list-style: none;
 }
 
 .summary ul li {
-    margin: 10px;
+    margin: 10px 0;
 }
 
 .address_form {
@@ -37,6 +36,8 @@
     justify-content: center;
     align-items: left;
     flex-direction: column;
+    width: 100%;
+    margin: 0 0 50px;
 }
 
 .address_form form {
@@ -44,17 +45,82 @@
     justify-content: center;
     align-items: left;
     flex-direction: column;
+    width: 100%;
 }
 
 .address_form label {
     width: 100%;
     font-size: 1rem;
-    margin: 15px auto 5px 0;
+    margin: 0 auto 5px 0;
 }
 
 .address_form input {
     font-size: 1rem;
     padding: 5px;
     border-radius: 5px;
+    border: none;
+    margin-bottom: 15px;
+}
+
+.address_form select {
+    font-size: 1rem;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 15px;
+    max-width: 400px;
+}
+
+.payment_form {
+    width: 100%;
+    margin: 0 0 50px;
+}
+
+.checkout_button {
+    margin: 10px 0;
+}
+
+
+@media only screen and (min-width: 499px) {
+
+    .checkout_page {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .address_form {
+        width: 80%;
+        max-width: 400px;
+        max-height: 550px;
+        margin: 50px 50px 50px 0;
+        justify-content: left;
+        align-items: flex-start;
+    }
+
+    .payment_form {
+        max-width: 400px;
+        max-height: 550px;
+        margin: 50px 50px 50px 0;
+        
+    }
     
+    .checkout_button {
+        margin: 10px auto 10px 0;
+    }
+
+    .checkout_page h2 {
+        margin: 0 0 25px;
+    }
+}
+
+@media only screen and (min-width: 1060px){
+
+    .address_form {
+        min-height: 550px;
+    }
+
+    .payment_form {
+        margin: 50px 0 50px 0;
+        min-height: 550px;
+    }
 }

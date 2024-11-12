@@ -3,3 +3,55 @@
     margin: 50px auto;
 }
 
+.item_container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.item_container h1 {
+    font-size: 2rem;
+}
+
+.product_image {
+    width: 100%;
+    height: fit-content;
+    object-fit: contain;
+    object-position: center center;
+    margin: 25px auto;
+}
+
+.details {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.details p {
+    width: 100%;
+    font-size: 1.2rem;
+    text-align: left;
+    margin: 10px auto;
+}
+
+.details button {
+    margin: 25px 0 50px;
+    width: fit-content;
+
+}
+
+.details label {
+    width: 100%;
+}
+
+.details input {
+    width: 30%;
+    padding: 2px 10px;
+    font-size: 1.1rem;
+    margin: 0 auto 0 10px;
+}
