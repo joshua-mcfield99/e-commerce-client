@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { login } from '../store/authSlice'; // Import the login action
+import { login } from '../store/authSlice'; // Redux login action
 import styles from '../styles/login.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -15,7 +15,7 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const router = useRouter();
-    const dispatch = useDispatch(); // Initialize Redux dispatch
+    const dispatch = useDispatch();
 
     // Handle Google OAuth login
     const handleGoogleLogin = () => {
@@ -29,18 +29,15 @@ export default function Login() {
         setError(null);
 
         try {
-            const response = await axios.post('http://localhost:3001/api/auth/login', {
-                email,
-                password,
-            }, { withCredentials: true });  // Ensure session cookies are sent
+            const response = await axios.post(
+                'http://localhost:3001/api/auth/login',
+                { email, password },
+                { withCredentials: true } // Include cookies for session
+            );
 
-            // On success, dispatch the login action and store the user data in Redux
             if (response.status === 200) {
-                const userData = response.data.user;
-                dispatch(login(userData)); // Dispatch login action to store user data
-
-                // Frontend handles the redirect
-                router.push('/profile');
+                dispatch(login(response.data.user)); // Store user data in Redux
+                router.push('/profile'); // Redirect to profile
             }
         } catch (err) {
             setError('An error occurred. Please try again.');
@@ -62,6 +59,7 @@ export default function Login() {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
+
                         <label htmlFor="password">Password:</label>
                         <input
                             type="password"
@@ -69,17 +67,29 @@ export default function Login() {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
-                        <p className={`${styles.forgot_pass}`}>Forgot password? <Link href='/forgot-password'>(Click me)</Link></p>
+
+                        <p className={`${styles.forgot_pass}`}>
+                            Forgot password? <Link href='/forgot-password'>(Click me)</Link>
+                        </p>
+
                         {error && <p className={styles.error}>{error}</p>}
+                        
                         <button type="submit" disabled={loading}>
                             {loading ? 'Logging in...' : 'Login'}
                         </button>
+
                         <div className={styles.google_oauth}>
                             <button onClick={handleGoogleLogin}>
                                 <p>Login with Google</p>
-                                <Image src='/Search_GSA.original.png' alt='google login button' width={30} height={30}/>
+                                <Image
+                                    src='/Search_GSA.original.png'
+                                    alt='Google login button'
+                                    width={30}
+                                    height={30}
+                                />
                             </button>
                         </div>
+
                         <p className={styles.signup}>
                             Don&#39;t have an account? <Link href='/signup'>(SignUp)</Link>
                         </p>

@@ -14,16 +14,14 @@ export default function ResetPassword() {
     const searchParams = useSearchParams();
     const router = useRouter();
 
-    // Extract the token from the query parameter
-    const token = searchParams.get('token');
+    const token = searchParams.get('token'); // Extract the token from the query parameters
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
         setSuccess(null);
 
-        // Simple client-side validation
+        // Client-side validation
         if (password !== confirmPassword) {
             setError("Passwords don't match");
             return;
@@ -37,7 +35,7 @@ export default function ResetPassword() {
         setLoading(true);
 
         try {
-            // Make API request to the reset password endpoint
+            // API request to reset the password
             const response = await axios.post('http://localhost:3001/api/auth/reset-password', {
                 token,
                 password,
@@ -45,23 +43,14 @@ export default function ResetPassword() {
 
             if (response.status === 200) {
                 setSuccess('Password reset successfully!');
-                
-                // If redirect is provided in the response, navigate to it (e.g., profile page)
-                if (response.data.redirect) {
-                    router.push(response.data.redirect);
-                } else {
-                    // Redirect to login after successful reset
-                    setTimeout(() => {
-                        router.push('/login');
-                    }, 3000); // Redirect after 3 seconds
-                }
+
+                // Redirect after successful reset
+                const redirectTo = response.data.redirect || '/login';
+                setTimeout(() => router.push(redirectTo), 3000); // Redirect after 3 seconds
             }
         } catch (err) {
-            if (err.response && err.response.data) {
-                setError(err.response.data.message || 'Something went wrong. Please try again.');
-            } else {
-                setError('Something went wrong. Please try again.');
-            }
+            const errorMsg = err.response?.data?.message || 'Something went wrong. Please try again.';
+            setError(errorMsg);
         } finally {
             setLoading(false);
         }
@@ -95,11 +84,9 @@ export default function ResetPassword() {
                     />
                 </div>
 
-                {/* Display error or success messages */}
                 {error && <p className={styles.error_msg}>{error}</p>}
                 {success && <p className={styles.success_msg}>{success}</p>}
 
-                {/* Submit button */}
                 <button type="submit" disabled={loading} className={styles.reset_btn}>
                     {loading ? 'Resetting...' : 'Reset Password'}
                 </button>

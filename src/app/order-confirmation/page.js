@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
@@ -7,14 +8,15 @@ import styles from '../styles/confirmation.module.css';
 const OrderConfirmation = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const [orderDetails, setOrderDetails] = useState(null);
+    const [orderDetails, setOrderDetails] = useState(null); // State to store order details
 
+    // Fetch order details using orderId from query parameters
     useEffect(() => {
         const fetchOrderDetails = async () => {
-            const orderId = searchParams.get('orderId'); // Get orderId from query params
+            const orderId = searchParams.get('orderId');
             if (!orderId) {
-                console.log('No orderId');
-                // Uncomment the following line if you want to redirect to the homepage when orderId is missing
+                console.log('No orderId provided');
+                // Optionally redirect to homepage if orderId is missing
                 // router.push('/');
                 return;
             }
@@ -23,10 +25,10 @@ const OrderConfirmation = () => {
                 const response = await axios.get(`http://localhost:3001/api/orders/${orderId}`, {
                     withCredentials: true,
                 });
-                setOrderDetails(response.data);
+                setOrderDetails(response.data); // Set fetched order details
             } catch (error) {
                 console.error('Error fetching order details:', error);
-                // Uncomment the following line if you want to redirect to the homepage on error
+                // Optionally redirect to homepage on error
                 // router.push('/');
             }
         };
@@ -34,6 +36,7 @@ const OrderConfirmation = () => {
         fetchOrderDetails();
     }, [searchParams]);
 
+    // Display loading message while fetching data
     if (!orderDetails) return <p>Loading...</p>;
 
     return (
@@ -41,7 +44,7 @@ const OrderConfirmation = () => {
             <h1>Thank you for your purchase!</h1>
             <p>Your payment was successful. Below are your order details:</p>
 
-            {/* Order Summary */}
+            {/* Order Summary Section */}
             <section className={styles.order_summary}>
                 <h2>Order Summary</h2>
                 <ul>
@@ -55,7 +58,7 @@ const OrderConfirmation = () => {
                 <h3>Total: ${parseFloat(orderDetails.total_price).toFixed(2)}</h3>
             </section>
 
-            {/* Shipping Address */}
+            {/* Shipping Address Section */}
             <section className={styles.shipping_details}>
                 <h2>Shipping Address</h2>
                 <p><strong>Name:</strong> {orderDetails.address.name}</p>
@@ -65,7 +68,8 @@ const OrderConfirmation = () => {
                 <p><strong>Country:</strong> {orderDetails.address.country}</p>
             </section>
 
-            {/*<p>We hope you enjoy your purchase! A confirmation email has been sent to your registered email address.</p>*/}
+            {/* Optionally include a note about email confirmation */}
+            {/* <p>We hope you enjoy your purchase! A confirmation email has been sent to your registered email address.</p> */}
         </main>
     );
 };
