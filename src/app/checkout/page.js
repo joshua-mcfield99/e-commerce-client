@@ -36,7 +36,9 @@ const CheckoutPage = () => {
     return (
         <main className={`${styles.checkout_page}`}>
             <StripeProvider clientSecret={clientSecret}>
-                <h1>Checkout</h1>
+                <div className={`${styles.title}`}>
+                    <h1>Checkout</h1>
+                </div>
                 <CheckoutForm cartItems={cartItems} totalPrice={totalPrice} cartId={cartId} clientSecret={clientSecret} />
             </StripeProvider>
         </main>

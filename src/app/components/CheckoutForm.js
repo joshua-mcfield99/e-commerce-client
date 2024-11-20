@@ -13,8 +13,9 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId, clientSecret }) => {
 
     // State to handle addresses and selected address
     const [savedAddresses, setSavedAddresses] = useState([]);
-    const [selectedAddressId, setSelectedAddressId] = useState('new'); // Default to 'new' to show form initially
+    const [selectedAddressId, setSelectedAddressId] = useState('new');
     const [address, setAddress] = useState({ name: '', street: '', city: '', state: '', postal_code: '', country: '' });
+    const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -23,11 +24,10 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId, clientSecret }) => {
         const fetchAddresses = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/api/users/profile', { withCredentials: true });
-                // Set the saved addresses to the 'addresses' array from the response
-                setSavedAddresses(response.data.addresses || []); // Fallback to empty array if undefined
+                setSavedAddresses(response.data.addresses || []);
             } catch (error) {
                 console.error('Error fetching addresses:', error);
-                setSavedAddresses([]); // Ensure savedAddresses is always an array
+                setSavedAddresses([]);
             }
         };
         fetchAddresses();
@@ -41,10 +41,10 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId, clientSecret }) => {
         if (addressId !== 'new') {
             const selectedAddress = savedAddresses.find(addr => addr.address_id === addressId);
             if (selectedAddress) {
-                setAddress(selectedAddress); // Populate form with selected address
+                setAddress(selectedAddress);
+                setErrors({});
             }
         } else {
-            // Reset form for new address entry
             setAddress({ name: '', street: '', city: '', state: '', postal_code: '', country: '' });
         }
     };
@@ -53,11 +53,49 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId, clientSecret }) => {
     const handleAddressChange = (e) => {
         const { name, value } = e.target;
         setAddress((prevAddress) => ({ ...prevAddress, [name]: value }));
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: '' })); // Clear field-specific error
     };
 
-    // Save new address or use selected address ID
+    // Validate the address form
+    const validateAddress = () => {
+        const errors = {};
+    
+        // Check if all required fields are filled
+        if (!address.name.trim()) errors.name = 'Full Name is required';
+        if (!address.street.trim()) errors.street = 'Street Address is required';
+        if (!address.city.trim()) errors.city = 'City is required';
+        if (!address.state.trim()) errors.state = 'State/County is required';
+        if (!address.country.trim()) errors.country = 'Country is required';
+    
+        // Postal code validation for UK and US
+        const ukPostalCodeRegex = /^[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}$/i;
+        const usPostalCodeRegex = /^\d{5}(-\d{4})?$/;
+    
+        if (!address.postal_code.trim()) {
+            errors.postal_code = 'Postal Code is required';
+        } else if (
+            address.country.toLowerCase() === 'united kingdom' &&
+            !ukPostalCodeRegex.test(address.postal_code)
+        ) {
+            errors.postal_code = 'Invalid UK postal code';
+        } else if (
+            address.country.toLowerCase() === 'united states' &&
+            !usPostalCodeRegex.test(address.postal_code)
+        ) {
+            errors.postal_code = 'Invalid US postal code';
+        }
+    
+        // Update errors state
+        setErrors(errors);
+    
+        // Return true if no errors, false otherwise
+        return Object.keys(errors).length === 0;
+    };
+
     const saveAddress = async () => {
         if (selectedAddressId !== 'new') return selectedAddressId;
+
+        if (!validateAddress()) return null;
 
         try {
             const response = await axios.post(
@@ -151,22 +189,72 @@ const CheckoutForm = ({ cartItems, totalPrice, cartId, clientSecret }) => {
                 {selectedAddressId === 'new' && (
                     <form onSubmit={handleSubmit}>
                         <label htmlFor="name">Full Name:</label>
-                        <input type="text" name="name" placeholder="Full Name" value={address.name} onChange={handleAddressChange} required />
-                        
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Full Name"
+                            value={address.name}
+                            onChange={handleAddressChange}
+                            required
+                        />
+                        {errors.name && <p className={styles.error}>{errors.name}</p>}
+
                         <label htmlFor="street">Street and Number:</label>
-                        <input type="text" name="street" placeholder="Street Address" value={address.street} onChange={handleAddressChange} required />
-                        
+                        <input
+                            type="text"
+                            name="street"
+                            placeholder="Street Address"
+                            value={address.street}
+                            onChange={handleAddressChange}
+                            required
+                        />
+                        {errors.street && <p className={styles.error}>{errors.street}</p>}
+
                         <label htmlFor="city">City:</label>
-                        <input type="text" name="city" placeholder="City" value={address.city} onChange={handleAddressChange} required />
-                        
+                        <input
+                            type="text"
+                            name="city"
+                            placeholder="City"
+                            value={address.city}
+                            onChange={handleAddressChange}
+                            required
+                        />
+                        {errors.city && <p className={styles.error}>{errors.city}</p>}
+
                         <label htmlFor="state">State/County:</label>
-                        <input type="text" name="state" placeholder="State/County" value={address.state} onChange={handleAddressChange} required />
-                        
+                        <input
+                            type="text"
+                            name="state"
+                            placeholder="State/County"
+                            value={address.state}
+                            onChange={handleAddressChange}
+                            required
+                        />
+                        {errors.state && <p className={styles.error}>{errors.state}</p>}
+
                         <label htmlFor="postal_code">Postal Code:</label>
-                        <input type="text" name="postal_code" placeholder="Postal Code" value={address.postal_code} onChange={handleAddressChange} required />
-                        
+                        <input
+                            type="text"
+                            name="postal_code"
+                            placeholder="Postal Code"
+                            value={address.postal_code}
+                            onChange={handleAddressChange}
+                            required
+                        />
+                        {errors.postal_code && <p className={styles.error}>{errors.postal_code}</p>}
+
                         <label htmlFor="country">Country:</label>
-                        <input type="text" name="country" placeholder="Country" value={address.country} onChange={handleAddressChange} required />
+                        <select
+                            name="country"
+                            value={address.country}
+                            onChange={handleAddressChange}
+                            required
+                        >
+                            <option value="">Select a country</option>
+                            <option value="United Kingdom">United Kingdom</option>
+                            <option value="United States">United States of America</option>
+                        </select>
+                        {errors.country && <p className={styles.error}>{errors.country}</p>}
                     </form>
                 )}
             </section>

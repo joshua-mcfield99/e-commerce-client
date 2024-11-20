@@ -83,7 +83,7 @@ const Cart = () => {
     return (
         <main className={`${styles.cart_page}`}>
             {cartItems.length === 0 ? (
-                <p>Your cart is empty.</p>
+                <p className={`${styles.empty}`}>Your cart is empty.</p>
             ) : (
                 <div className={`${styles.cart}`}>
                     <h1>Your Cart</h1>

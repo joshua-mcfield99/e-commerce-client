@@ -1,13 +1,14 @@
 .login_container {
     width: 80%;
     height: 60vh;
-    margin: auto;
+    margin: 0 auto 100px;
     display: flex;
     flex-direction: column;
+    max-width:  500px;
 }
 
 .login_container h1  {
-    font-size: 1.6rem;
+    font-size: 2rem;
     margin: 25px 0;
 }
 

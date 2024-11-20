@@ -1,12 +1,17 @@
 .confirmation_page {
     max-width: 600px;
-    margin: 2rem auto;
+    margin: 50px auto 100px;
     padding: 1.5rem;
     text-align: center;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: black;
+}
+
+.confirmation_page h1 {
+    font-size: 2rem;
+    margin: 25px auto;
 }
 
 .order_summary, .shipping_details {
